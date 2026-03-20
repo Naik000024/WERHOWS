@@ -77,3 +77,18 @@ const LogsArchive: React.FC = () => {
                                         {order.status}
                                     </span>
                                 </td>
+                                <td className="p-4 text-white font-bold">{order.customer_name}</td>
+                                <td className="p-4 text-gray-500 italic">
+                                    {order.items?.map(item => `${item.quantity}x ${item.product_name}`).join(', ') || 'NO_ITEMS'}
+                                </td>
+                                <td className="p-4 text-right text-neon-cyan font-bold">#ORD_{order.id}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </Layout>
+    );
+};
+
+export default LogsArchive;
