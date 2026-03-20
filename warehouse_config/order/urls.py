@@ -9,7 +9,6 @@ urlpatterns = [
     
     # Inventory
     path('inventory/', views.InventoryListCreateView.as_view()),
-    # THE MISSING LINK: Add this line to handle stock updates
     path('inventory/<int:pk>/', views.InventoryRetrieveUpdateDestroyView.as_view()),
     
     # Orders
