@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import MasterDashboard from './pages/MasterDashboard';
+import Inventory from './pages/Inventory';
+import LogsArchive from './pages/LogsArchive'; // 1. Import your new page
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Redirect empty path to dashboard */}
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+        
+        {/* Main Application Routes */}
+        <Route path="/dashboard" element={<MasterDashboard />} />
+        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/logs" element={<LogsArchive />} />
+
+        {/* 404 Catch-all (Optional) */}
+        <Route path="*" element={
+          <div className="min-h-screen bg-[#0d1117] flex items-center justify-center font-mono text-neon-pink">
+            [ ERROR: 404_CORE_NOT_FOUND ]
+          </div>
+        } />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
