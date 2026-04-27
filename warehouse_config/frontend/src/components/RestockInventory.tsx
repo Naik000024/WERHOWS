@@ -19,8 +19,6 @@ const RestockInventory: React.FC<{ onAction: () => void }> = ({ onAction }) => {
 
     try {
         const newTotal = currentItem.quantity_available + addQty;
-
-        // FIXED URL: Must include 'inventory/' and end with a slash '/'
         await API.patch(`inventory/${currentItem.id}/`, {
             quantity_available: newTotal
         });

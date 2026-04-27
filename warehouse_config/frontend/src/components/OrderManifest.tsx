@@ -30,7 +30,7 @@ const OrderManifest: React.FC<Props> = ({ onAction }) => {
 
         try {
             // This hits the OrderRetrieveUpdateDestroyView in your Django backend
-            await API.delete("orders/${id}/");
+            await API.delete(`orders/${id}/`);
             alert("SYSTEM_LOG: Order successfully purged.");
             onAction(); // Trigger global refresh
             fetchOrders(); // Refresh local table

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout'; // Import your new Layout
+import Layout from '../components/Layout'; 
 import AnalyticsCards from '../components/AnalyticsCards';
 import ProductRegistry from '../components/ProductRegistry';
 import StockAllocation from '../components/StockAllocation';

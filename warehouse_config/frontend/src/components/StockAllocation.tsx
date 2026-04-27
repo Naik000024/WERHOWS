@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getinventory, createshipment } from '../api'; // Removed getproducts
+import { getinventory, createshipment } from '../api'; 
 import { Inventory } from '../types';
 
 const StockAllocation: React.FC<{ onAction: () => void }> = ({ onAction }) => {

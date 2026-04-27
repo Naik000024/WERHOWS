@@ -16,7 +16,7 @@ const LogsArchive: React.FC = () => {
 
     const fetchOrdersAsLogs = async () => {
         try {
-            // FIX: We use your existing orders endpoint
+            // We use existing orders endpoint
             const response = await API.get('orders/'); 
             setOrders(response.data);
         } catch (error) {

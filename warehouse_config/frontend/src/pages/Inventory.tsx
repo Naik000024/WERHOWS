@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import Modal from '../components/Modal'; // Ensure you have the Modal component we created
+import Modal from '../components/Modal'; 
 import { API } from '../api';
 import { Inventory as InventoryType } from '../types'; // Use the Inventory interface for stock data
 
@@ -16,7 +16,6 @@ const Inventory: React.FC = () => {
     const fetchInventory = async () => {
         try {
             setLoading(true);
-            // We fetch from 'inventory/' because that's where 'quantity_available' lives
             const response = await API.get('inventory/');
             setItems(response.data);
         } catch (error) {
@@ -66,7 +65,7 @@ const Inventory: React.FC = () => {
                     </p>
                 </div>
 
-                {/* Added a search bar that matches your design */}
+                {/* Added a search bar*/}
                 <input 
                     type="text"
                     placeholder="SEARCH_BY_NAME..."
@@ -93,7 +92,7 @@ const Inventory: React.FC = () => {
                             key={item.id} 
                             className="bg-black/40 border border-gray-800 p-6 rounded-sm group hover:border-neon-cyan/50 transition-all backdrop-blur-sm relative overflow-hidden"
                         >
-                            {/* Decorative Background ID - Matches your design */}
+                            {/* Decorative Background ID */}
                             <div className="absolute -right-4 -bottom-2 text-6xl font-black text-white/5 select-none uppercase">
                                 {item.product}
                             </div>
@@ -111,7 +110,7 @@ const Inventory: React.FC = () => {
                                 <div className="bg-gray-900/50 p-3 rounded-sm border border-gray-800/50">
                                     <div className="flex justify-between items-center mb-1">
                                         <span className="text-[9px] text-gray-500 uppercase">Stock_Level</span>
-                                        {/* FIXED: Reading quantity_available from Inventory interface */}
+                                        {/* Reading quantity_available from Inventory interface */}
                                         <span className={`text-xs font-bold ${item.quantity_available < 5 ? 'text-neon-pink animate-pulse' : 'text-green-400'}`}>
                                             {item.quantity_available} UNITS
                                         </span>
