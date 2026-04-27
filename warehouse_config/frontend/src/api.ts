@@ -3,6 +3,27 @@ import { Product, Inventory, Order, OrderItem } from "./types";
 
 export const API = axios.create({ baseURL: "http://127.0.0.1:8000/api/" });
 
+// --- AUTH INTERCEPTOR (REQUEST) ---
+API.interceptors.request.use((config) => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
+// --- AUTO-LOGOUT INTERCEPTOR (RESPONSE) ---
+API.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            localStorage.removeItem('access_token');
+            window.location.href = '/login'; 
+        }
+        return Promise.reject(error);
+    }
+);
+
 // --- PRODUCT API CALLS ---
 export const getproducts = async (): Promise<Product[]> => {
     const response = await API.get<Product[]>("products/");
@@ -35,7 +56,6 @@ export const getorders = async (): Promise<Order[]> => {
     return response.data;
 };
 
-// This handles the new Stock Allocation logic with custom quantities
 export const createshipment = async (data: any): Promise<Order> => {
     const response = await API.post<Order>("orders/", data);
     return response.data;
@@ -71,7 +91,6 @@ export const deleteorderitem = async (id: number): Promise<void> => {
 };
 
 // --- CORE LOGIC: FULFILLMENT & REPORTS ---
-
 export const fulfillorder = async (id: number): Promise<{status: string}> => {
     const response = await API.post(`orders/${id}/fulfill/`);
     return response.data;

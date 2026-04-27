@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,6 +8,13 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.clear();
+    navigate('/login');
+  };
 
   return (
     <div className="min-h-screen bg-[#0d1117] text-gray-300 font-sans selection:bg-neon-cyan selection:text-black">
@@ -22,7 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
             </h1>
           </div>
 
-          <div className="hidden md:flex gap-6 text-[10px] uppercase tracking-widest font-bold">
+          <div className="hidden md:flex items-center gap-6 text-[10px] uppercase tracking-widest font-bold">
             <Link 
               to="/dashboard" 
               className={`pb-1 transition-all ${location.pathname === '/dashboard' ? 'text-neon-cyan border-b border-neon-cyan' : 'text-gray-500 hover:text-white'}`}
@@ -35,14 +42,26 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
             >
               Inventory
             </Link>
-            
-            {/* UNLOCKED: Logs Archive Link with your matching design */}
             <Link 
               to="/logs" 
               className={`pb-1 transition-all ${location.pathname === '/logs' ? 'text-neon-cyan border-b border-neon-cyan' : 'text-gray-500 hover:text-white'}`}
             >
               Logs_Archive
             </Link>
+            <Link 
+              to="/profile" 
+              className={`pb-1 transition-all ${location.pathname === '/profile' ? 'text-neon-cyan border-b border-neon-cyan' : 'text-gray-500 hover:text-white'}`}
+            >
+              Profile
+            </Link>
+
+            {/* LOGOUT BUTTON */}
+            <button 
+              onClick={handleLogout}
+              className="ml-4 px-3 py-1 border border-neon-pink/50 text-neon-pink hover:bg-neon-pink hover:text-black transition-all duration-300 italic"
+            >
+              Terminate_Session
+            </button>
           </div>
         </div>
       </nav>

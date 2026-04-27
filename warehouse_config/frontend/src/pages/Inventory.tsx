@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import Modal from '../components/Modal'; 
-import { API } from '../api';
-import { Inventory as InventoryType } from '../types'; // Use the Inventory interface for stock data
+import { getinventory, API } from '../api'; // Updated import
+import { Inventory as InventoryType } from '../types'; 
 
 const Inventory: React.FC = () => {
     const [items, setItems] = useState<InventoryType[]>([]);
     const [loading, setLoading] = useState(true);
     
-    // State for Modal and Search
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<InventoryType | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -16,16 +15,15 @@ const Inventory: React.FC = () => {
     const fetchInventory = async () => {
         try {
             setLoading(true);
-            const response = await API.get('inventory/');
-            setItems(response.data);
+            // Use the structured helper from api.ts
+            const data = await getinventory();
+            setItems(data);
         } catch (error) {
             console.error("FAILED_TO_FETCH_REGISTRY", error);
         } finally {
             setLoading(false);
         }
     };
-
-    // --- BUTTON LOGIC ---
 
     const handleViewDetails = (item: InventoryType) => {
         setSelectedItem(item);
@@ -35,7 +33,6 @@ const Inventory: React.FC = () => {
     const handleDelete = async (id: number, name: string) => {
         if (window.confirm(`CRITICAL_ACTION: Purge ${name} from database?`)) {
             try {
-                // Adjust endpoint to your Django URL (usually 'products/' for full deletion)
                 await API.delete(`inventory/${id}/`);
                 setItems(prev => prev.filter(i => i.id !== id));
             } catch (error) {
@@ -48,7 +45,6 @@ const Inventory: React.FC = () => {
         fetchInventory();
     }, []);
 
-    // Filter items based on search
     const filteredItems = items.filter(item => 
         item.product_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -65,7 +61,6 @@ const Inventory: React.FC = () => {
                     </p>
                 </div>
 
-                {/* Added a search bar*/}
                 <input 
                     type="text"
                     placeholder="SEARCH_BY_NAME..."
@@ -92,7 +87,6 @@ const Inventory: React.FC = () => {
                             key={item.id} 
                             className="bg-black/40 border border-gray-800 p-6 rounded-sm group hover:border-neon-cyan/50 transition-all backdrop-blur-sm relative overflow-hidden"
                         >
-                            {/* Decorative Background ID */}
                             <div className="absolute -right-4 -bottom-2 text-6xl font-black text-white/5 select-none uppercase">
                                 {item.product}
                             </div>
@@ -110,7 +104,6 @@ const Inventory: React.FC = () => {
                                 <div className="bg-gray-900/50 p-3 rounded-sm border border-gray-800/50">
                                     <div className="flex justify-between items-center mb-1">
                                         <span className="text-[9px] text-gray-500 uppercase">Stock_Level</span>
-                                        {/* Reading quantity_available from Inventory interface */}
                                         <span className={`text-xs font-bold ${item.quantity_available < 5 ? 'text-neon-pink animate-pulse' : 'text-green-400'}`}>
                                             {item.quantity_available} UNITS
                                         </span>
@@ -143,7 +136,6 @@ const Inventory: React.FC = () => {
                 </div>
             )}
 
-            {/* Custom Neon Modal for Details */}
             <Modal 
                 isOpen={isModalOpen} 
                 onClose={() => setIsModalOpen(false)} 
