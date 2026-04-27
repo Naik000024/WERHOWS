@@ -1,5 +1,8 @@
 from django.contrib import admin
 from .models import Product, Inventory, Order, OrderItem
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -18,3 +21,4 @@ class InventoryAdmin(admin.ModelAdmin):
     list_editable = ('quantity_available',)
 
 admin.site.register(Product)
+admin.site.register(User)
