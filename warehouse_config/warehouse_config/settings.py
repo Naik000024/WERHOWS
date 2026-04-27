@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b!e^@awv=wdy2=9^04&f58jsc5all&q%nf5oi8y*7rv7xr=oj_'
+SECRET_KEY = 'django-insecure--3+9^jc-zw@uuo^^-b^_qohbyz#ir&cpuip!m_^fjdf$gtbdtu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,11 +43,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'order',
     'djoser',
-
+    'user',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,8 +90,9 @@ DATABASES = {
         'PASSWORD': 'N4pe1924',
         'HOST': 'localhost',  # Or the IP/hostname of your PostgreSQL server
         'PORT': '5432',      # Default PostgreSQL port
-    }
+   }
 }
+
 
 
 # Password validation
