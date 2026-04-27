@@ -75,6 +75,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'warehouse_config.wsgi.application'
 
+AUTH_USER_MODEL = 'user.Account'
+
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -130,3 +132,32 @@ STATIC_URL = 'static/'
 # settings.py
 CORS_ALLOW_ALL_ORIGINS = True  # Allows React to send data
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"] # Trusts your frontend
+
+# Tell Django to use your custom Account model
+AUTH_USER_MODEL = 'user.Account'
+
+# Configure Django REST Framework to use JWT for login/authorization
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SERIALIZERS': {
+        'user_create': 'user.serializers.UserCreateSerializer',  # For registration
+        'user': 'user.serializers.UserSerializer',         # For viewing profile
+        'current_user': 'user.serializers.UserSerializer', # For /users/me/
+    },
+}
