@@ -9,7 +9,7 @@ const Inventory: React.FC = () => {
     const [loading, setLoading] = useState(true);
     
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState<InventoryType | null>(null);
+    const [selectedItem, setSelectedItem] = useState<any | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     const fetchInventory = async () => {
@@ -88,12 +88,12 @@ const Inventory: React.FC = () => {
                             className="bg-black/40 border border-gray-800 p-6 rounded-sm group hover:border-neon-cyan/50 transition-all backdrop-blur-sm relative overflow-hidden"
                         >
                             <div className="absolute -right-4 -bottom-2 text-6xl font-black text-white/5 select-none uppercase">
-                                {item.product}
+                                {item.product || item.product}
                             </div>
 
                             <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <p className="text-[9px] text-neon-cyan font-bold tracking-[0.2em] mb-1 italic">SKU_REF: #{item.product}</p>
+                                    <p className="text-[9px] text-neon-cyan font-bold tracking-[0.2em] mb-1 italic">SKU: {item.product|| 'N/A'}</p>
                                     <h3 className="text-lg font-black text-white uppercase group-hover:text-neon-cyan transition-colors">
                                         {item.product_name}
                                     </h3>
@@ -146,6 +146,14 @@ const Inventory: React.FC = () => {
                         <div className="flex justify-between text-[10px] border-b border-gray-800 pb-2">
                             <span className="text-gray-500 uppercase">Designation:</span>
                             <span className="text-white">{selectedItem.product_name}</span>
+                        </div>
+                        <div className="flex justify-between text-[10px] border-b border-gray-800 pb-2">
+                            <span className="text-gray-500 uppercase">Serial_SKU:</span>
+                            <span className="text-white">{selectedItem.product_sku || 'N/A'}</span>
+                        </div>
+                        <div className="flex justify-between text-[10px] border-b border-gray-800 pb-2">
+                            <span className="text-gray-500 uppercase">Unit_Price:</span>
+                            <span className="text-green-400">₱{selectedItem.product_price || '0.00'}</span>
                         </div>
                         <div className="flex justify-between text-[10px] border-b border-gray-800 pb-2">
                             <span className="text-gray-500 uppercase">Availability:</span>

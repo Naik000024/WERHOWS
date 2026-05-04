@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import MasterDashboard from './pages/MasterDashboard';
 import Inventory from './pages/Inventory';
 import LogsArchive from './pages/LogsArchive';
-import Login from './pages/Login'; // New Import
-import Profile from './pages/Profile'; // New Import
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import Register from './pages/Register';
+import Activate from './pages/Activate'; // Import the activation component
+
 // Simple check to see if the operator is authenticated
 const isAuthenticated = () => !!localStorage.getItem('access_token');
 
@@ -17,15 +20,20 @@ const App: React.FC = () => {
           isAuthenticated() ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
         } />
         
-        {/* 2. AUTHENTICATION ROUTE */}
+        {/* 2. AUTHENTICATION ROUTES */}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        
+        {/* 3. ACCOUNT ACTIVATION ROUTE */}
+        {/* This catches the link sent to your email by Djoser */}
+        <Route path="/activate/:uid/:token" element={<Activate />} />
 
-        {/* 3. MAIN APPLICATION ROUTES */}
+        {/* 4. MAIN APPLICATION ROUTES */}
         <Route path="/dashboard" element={<MasterDashboard />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/logs" element={<LogsArchive />} />
         
-        {/* 4. OPERATOR PROFILE ROUTE */}
+        {/* 5. OPERATOR PROFILE ROUTE */}
         <Route path="/profile" element={<Profile />} />
 
         {/* 404 Catch-all */}

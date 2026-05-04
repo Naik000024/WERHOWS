@@ -9,14 +9,16 @@ const Profile = () => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('access_token');
       try {
+        // Updated to use your local IP and the Djoser 'me' endpoint
         const response = await axios.get('http://127.0.0.1:8000/user/auth/users/me/', {
           headers: {
+            // Djoser default uses 'Token', standard JWT uses 'Bearer'
             Authorization: `Bearer ${token}`
           }
         });
         setAccount(response.data);
       } catch (error) {
-        console.error("Session Expired or Unauthorized");
+        console.error("Session Expired or Unauthorized", error);
       }
     };
     fetchProfile();
@@ -24,7 +26,6 @@ const Profile = () => {
 
   if (!account) return <div className="p-20 text-cyan-500 font-mono italic animate-pulse">DECRYPTING_OPERATOR_DATA...</div>;
 
-  // Helper to handle empty strings or nulls
   const displayValue = (val: any, fallback: string) => (val && val !== "" ? val : fallback);
 
   return (

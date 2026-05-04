@@ -1,68 +1,86 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import Layout from '../components/Layout';
 
-const Profile = () => {
-  const [account, setAccount] = useState<any>(null);
+const Register = () => {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [re_password, setRePassword] = useState('');
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const token = localStorage.getItem('access_token');
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/user/auth/users/me/', {
-          headers: {
-            Authorization: Bearer ${token}
-          }
-        });
-        setAccount(response.data);
-      } catch (error) {
-        console.error("Session Expired or Unauthorized");
-      }
-    };
-    fetchProfile();
-  }, []);
-
-  if (!account) return <div className="p-20 text-cyan-500 font-mono italic animate-pulse">DECRYPTING_OPERATOR_DATA...</div>;
-
-  // Helper to handle empty strings or nulls
-  const displayValue = (val: any, fallback: string) => (val && val !== "" ? val : fallback);
-
-  return (
-    <Layout title="Operator_Profile">
-      <div className="max-w-2xl mx-auto border border-gray-800 bg-black/20 p-8 backdrop-blur-sm font-mono mt-10">
-        <div className="border-b border-gray-800 pb-4 mb-6">
-          <h2 className="text-cyan-400 font-black text-sm uppercase tracking-widest">[ ACCOUNT_DETAILS ]</h2>
-        </div>
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 text-[11px] uppercase tracking-tighter">
-          <div>
-            <p className="text-gray-500 text-[9px] mb-1 tracking-[0.2em]">OPERATOR_NAME</p>
-            <p className="text-white font-bold">
-              {account.first_name || account.last_name 
-                ? ${account.first_name} ${account.last_name}.trim() 
-                : 'NOT_SET'}
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-500 text-[9px] mb-1 tracking-[0.2em]">EMAIL_ADDRESS</p>
-            <p className="text-white font-bold">{account.email}</p>
-          </div>
-          <div>
-            <p className="text-gray-500 text-[9px] mb-1 tracking-[0.2em]">CURRENT_AGE</p>
-            <p className="text-white font-bold">{displayValue(account.age, 'NOT_SET')}</p>
-          </div>
-          <div>
-            <p className="text-gray-500 text-[9px] mb-1 tracking-[0.2em]">DATE_OF_BIRTH</p>
-            <p className="text-white font-bold">{displayValue(account.birthday, 'NOT_SET')}</p>
-          </div>
-          <div className="md:col-span-2">
-            <p className="text-gray-500 text-[9px] mb-1 tracking-[0.2em]">PHYSICAL_ADDRESS</p>
-            <p className="text-white font-bold leading-relaxed">{displayValue(account.address, 'NO_ADDRESS_LOGGED')}</p>
-          </div>
+        if (password !== re_password) {
+            alert("SECURITY_ERROR: Passwords do not match");
+            return;
+        }
+
+        try {
+            // Djoser registration endpoint
+            await axios.post('http://127.0.0.1:8000/user/auth/users/', {
+                username,
+                email,
+                password,
+                re_password,
+            });
+
+            alert("REGISTRATION_SUCCESS: Operator credentials indexed.");
+            navigate('/login');
+        } catch (error: any) {
+            console.error("REGISTRATION_FAILED", error.response?.data);
+            alert("ACCESS_DENIED: Check credentials or email format");
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-[#0d1117] flex items-center justify-center font-mono text-white">
+            <div className="border border-neon-cyan/30 p-10 bg-black/40 backdrop-blur-md w-96 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
+                <h2 className="text-neon-cyan text-xs mb-8 uppercase tracking-[0.3em] font-bold italic text-center">
+                    [ NEW_OPERATOR_ENROLLMENT ]
+                </h2>
+                <form onSubmit={handleRegister} className="space-y-4">
+                    <input 
+                        type="text" 
+                        placeholder="ASSIGN_USERNAME"
+                        className="w-full bg-black border border-gray-800 p-3 text-[11px] focus:border-neon-cyan outline-none transition-all"
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+                    <input 
+                        type="email" 
+                        placeholder="ASSIGN_EMAIL"
+                        className="w-full bg-black border border-gray-800 p-3 text-[11px] focus:border-neon-cyan outline-none transition-all"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <input 
+                        type="password" 
+                        placeholder="SET_ACCESS_KEY"
+                        className="w-full bg-black border border-gray-800 p-3 text-[11px] focus:border-neon-cyan outline-none transition-all"
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <input 
+                        type="password" 
+                        placeholder="CONFIRM_ACCESS_KEY"
+                        className="w-full bg-black border border-gray-800 p-3 text-[11px] focus:border-neon-cyan outline-none transition-all"
+                        onChange={(e) => setRePassword(e.target.value)}
+                        required
+                    />
+                    <button className="w-full bg-neon-cyan text-black font-black py-2 text-[11px] hover:bg-white transition-all uppercase">
+                        Authorize_Enrollment
+                    </button>
+                </form>
+                <div className="mt-6 text-center">
+                    <Link to="/login" className="text-[9px] text-gray-500 hover:text-neon-cyan uppercase tracking-widest">
+                        Return_to_Login
+                    </Link>
+                </div>
+            </div>
         </div>
-      </div>
-    </Layout>
-  );
+    );
 };
 
-export default Profile;
+export default Register;
