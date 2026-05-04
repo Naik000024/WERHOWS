@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import Modal from '../components/Modal'; 
-import { getinventory, API } from '../api'; // Updated import
+import { getinventory, API } from '../api'; 
 import { Inventory as InventoryType } from '../types'; 
 
 const Inventory: React.FC = () => {
@@ -15,7 +15,6 @@ const Inventory: React.FC = () => {
     const fetchInventory = async () => {
         try {
             setLoading(true);
-            // Use the structured helper from api.ts
             const data = await getinventory();
             setItems(data);
         } catch (error) {

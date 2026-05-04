@@ -51,7 +51,7 @@ ROOT_URLCONF = 'warehouse_config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'user', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'user', 'templates','user')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,8 +72,8 @@ DATABASES = {
         'NAME': 'WAREHOUSE',
         'USER': 'postgres',
         'PASSWORD': 'N4pe1924',
-        'HOST': 'localhost',  # Or the IP/hostname of your PostgreSQL server
-        'PORT': '5432',      # Default PostgreSQL port
+        'HOST': 'localhost',
+        'PORT': '5432',
    }
 }
 
