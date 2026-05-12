@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure--3+9^jc-zw@uuo^^-b^_qohbyz#ir&cpuip!m_^fjdf$gtbdtu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.15', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '192.168.1.15,localhost,127.0.0.1,.onrender.com,.vercel.app').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -95,12 +95,18 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # CORS and Security
-CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://192.168.1.15:3000"  # Add this!
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https://.*\.vercel\.app$',
+    r'^https://.*\.onrender\.com$',
 ]
+CORS_ALLOWED_ORIGINS = os.environ.get(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000,http://192.168.1.15:3000'
+).split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000,http://192.168.1.15:3000'
+).split(',')
 
 # Custom User Model
 AUTH_USER_MODEL = 'user.Account'
