@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "warehouse_config/api/index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "warehouse_config/api/index.py" },
+    { "source": "/user/(.*)", "destination": "warehouse_config/api/index.py" },
+    { "source": "/admin/(.*)", "destination": "warehouse_config/api/index.py" },
+    { "source": "/(.*)", "destination": "warehouse_config/api/index.py" }
+  ]
+}
