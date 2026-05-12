@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "warehouse_config/api/index.py",
@@ -11,11 +10,10 @@
       "config": { "distDir": "build" }
     }
   ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "warehouse_config/api/index.py" },
-    { "src": "/user/(.*)", "dest": "warehouse_config/api/index.py" },
-    { "src": "/admin/(.*)", "dest": "warehouse_config/api/index.py" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "warehouse_config/frontend/index.html" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "warehouse_config/api/index.py" },
+    { "source": "/user/(.*)", "destination": "warehouse_config/api/index.py" },
+    { "source": "/admin/(.*)", "destination": "warehouse_config/api/index.py" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
