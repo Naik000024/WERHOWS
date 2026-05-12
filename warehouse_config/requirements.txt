@@ -1,0 +1,13 @@
+django
+dj-database-url
+python-dotenv
+psycopg2-binary
+whitenoise
+gunicorn
+django-cors-headers
+djangorestframework
+djoser
+djangorestframework-simplejwt
+cloudinary
+django-cloudinary-storage
+gevent
