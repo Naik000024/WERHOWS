@@ -12,33 +12,22 @@
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
     }
   ],
-  "routes": [
-    { 
-      "src": "/api/(.*)", 
-      "dest": "warehouse_config/api/index.py" 
-    },
-    { 
-      "src": "/user/(.*)", 
-      "dest": "warehouse_config/api/index.py" 
-    },
-    { 
-      "src": "/admin/(.*)", 
-      "dest": "warehouse_config/api/index.py" 
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "warehouse_config/api/index.py"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "warehouse_config/api/index.py"
+      "source": "/user/(.*)",
+      "destination": "warehouse_config/api/index.py"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
+      "source": "/admin/(.*)",
+      "destination": "warehouse_config/api/index.py"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
