@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Product, Inventory, Order, OrderItem } from "./types";
 
-export const API = axios.create({ baseURL: "http://127.0.0.1:8000/api/" });
+export const API = axios.create({ baseURL: "/api/" });
 
 // --- AUTH INTERCEPTOR (REQUEST) ---
 API.interceptors.request.use((config) => {
