@@ -16,8 +16,6 @@
     { "source": "/user/(.*)", "destination": "/warehouse_config/api/index.py" },
     { "source": "/admin/(.*)", "destination": "/warehouse_config/api/index.py" },
     { "source": "/static/(.*)", "destination": "/warehouse_config/frontend/static/$1" },
-    { "source": "/(.*)", "destination": "/warehouse_config/frontend/$1" },
-    { "handle": "filesystem" },
-    { "source": "/(.*)", "destination": "/warehouse_config/frontend/index.html" }
+    { "source": "/((?!api|user|admin|static).*)", "destination": "/warehouse_config/frontend/index.html" }
   ]
 }
