@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,15 +67,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'warehouse_config.wsgi.application'
 
 # Database
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'WAREHOUSE',
-        'USER': 'postgres',
-        'PASSWORD': 'N4pe1924',
-        'HOST': 'localhost',
-        'PORT': '5432',
-   }
+    'default': dj_database_url.config(
+        default='postgresql://postgres:N4pe1924@localhost:5432/WAREHOUSE',
+        conn_max_age=600
+    )
 }
 
 # Password validation
@@ -93,6 +92,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # CORS and Security
 CORS_ALLOWED_ORIGIN_REGEXES = [
